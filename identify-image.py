@@ -9,6 +9,7 @@ import Image
 import sys
 import database
 import os
+import natsort
 
 
 class IdentifyImage():
@@ -17,7 +18,7 @@ class IdentifyImage():
 
     def identify_image(self, pic_route):
         try:
-            im = Image.open(unicode("D:\PythonProject\jiandan-ooxx\第3页第15张.jpg", "utf-8"))
+            im = Image.open(unicode(pic_route, "utf-8"))
             return True
         except Exception, e:
             return False
@@ -25,7 +26,7 @@ class IdentifyImage():
     def getImageSize(self, im):
         return im.size
 
-    def GetFileList(self, dir, fileList):
+    def getFileList(self, dir, fileList):
         newDir = dir
         if os.path.isfile(dir):
             fileList.append(dir.decode('gbk'))
@@ -35,12 +36,12 @@ class IdentifyImage():
                 # if s == "xxx":
                 # continue
                 newDir = os.path.join(dir, s)
-                self.GetFileList(newDir, fileList)
+                self.getFileList(newDir, fileList)
         return fileList
 
 
 if __name__ == '__main__':
     idImage = IdentifyImage()
-    list = idImage.GetFileList("D:\scrawer_pic", [])
-    for e in list:
+    image_list = idImage.getFileList("D:\scrawer_pic", [])
+    for e in image_list:
         print e

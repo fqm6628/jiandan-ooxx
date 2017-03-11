@@ -24,6 +24,7 @@ class MSSQL:
     """
     #获取数据连接函数
     """
+
     def getDbConection(self):
         '''
         如果和本机数据库交互，只需修改链接字符串
@@ -35,7 +36,8 @@ class MSSQL:
 
     """
        #获取数据连接函数
-       """
+    """
+
     def getDBCursor(self):
         cur = self.getDbConection().cursor()
 
@@ -43,6 +45,8 @@ class MSSQL:
             raise (NameError, "连接数据库失败")
         else:
             return cur
+
+    # def execQuery(self,sql):
 
 # cur.execute('select top 1 * from [dbo].[a_employee_mi]')
 # # 如果update/delete/insert记得要conn.commit()
@@ -61,13 +65,14 @@ class MSSQL:
 # conn.close()
 
 if __name__ == '__main__':
-    mssql = MSSQL("localhost", "hissql", "86128613@Rmyy", "pic_db")
+    mssql = MSSQL("localhost", "hissql", "86128613@Rmyy", "sdyymz")
     try:
         cur = mssql.getDBCursor()
-        cur.execute('select top 1 * from [dbo].[pic_table]')
+        cur.execute('select top 1 code,* from a_employee_mi')
         rows = cur.fetchall()
         for row in rows:
             print row.__str__()
+            # print row['code']
         cur.close
 
     except Exception, e:
