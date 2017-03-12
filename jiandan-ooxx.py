@@ -6,6 +6,7 @@ import sys
 import time
 import requests
 import bs4
+import lxml
 
 # 加入header模拟浏览器
 headers = {'referer': 'http://jandan.net/',
@@ -14,8 +15,12 @@ headers = {'referer': 'http://jandan.net/',
 reload(sys)
 sys.setdefaultencoding('utf-8')
 baseUrl = 'http://jandan.net/ooxx/page-{}#comments'
-begin_page = 0
-while begin_page < 300:
+begin_page_str = raw_input("请输入开始页号(直接回车表示从第一页开始):")
+if begin_page_str == '':
+    begin_page = 0
+else:
+    begin_page = int(begin_page_str)
+while begin_page < 3000:
     begin_page += 1
     requestUrl = baseUrl.format(begin_page)
     res = requests.get(requestUrl, headers=headers)
@@ -28,7 +33,7 @@ while begin_page < 300:
             if str(each.attrs['src'])[-4:] == '.jpg':
                 if str(each.attrs['src'])[0:4] != 'http':
                     try:
-                        jpg_content = requests.get('http:' + each.attrs['src'], stream=True).content
+                        jpg_content = requests.get('http:' + each.attrs['src'], stream=True, timeout=5).content
                         if jpg_content is not None:
                             if sys.getsizeof(jpg_content) >= 10240:
                                 jpg = open('D:\\scrawer_pic\{}.jpg'.format(filename.encode('gbk')), 'wb')
@@ -44,7 +49,7 @@ while begin_page < 300:
                         print('http:' + str(each.attrs['src']) + "下载不成功1,异常信息为" + str(e.message))
                 else:
                     try:
-                        jpg_content = requests.get(each.attrs['src'], stream=True).content
+                        jpg_content = requests.get(each.attrs['src'], stream=True, timeout=5).content
                         if jpg_content is not None:
                             if sys.getsizeof(jpg_content) >= 10240:
                                 jpg = open('D:\\scrawer_pic\{}.jpg'.format(filename.encode('gbk')), 'wb')
