@@ -27,7 +27,6 @@ class IdentifyImage():
         return im.size
 
     def getFileList(self, dir, fileList):
-        newDir = dir
         if os.path.isfile(dir):
             fileList.append(dir.decode('gbk'))
         elif os.path.isdir(dir):
@@ -35,8 +34,8 @@ class IdentifyImage():
                 # 如果需要忽略某些文件夹，使用以下代码
                 # if s == "xxx":
                 # continue
-                newDir = os.path.join(dir, s)
-                self.getFileList(newDir, fileList)
+                new_dir = os.path.join(dir, s)
+                self.getFileList(new_dir, fileList)
         return fileList
 
 
